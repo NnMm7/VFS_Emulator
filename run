@@ -1,0 +1,10 @@
+@echo off
+REM Запуск теста этапа 1 (REPL)
+cd /d "%~dp0"
+
+echo   Тест этапа 1: запуск прототипа REPL
+python emulator.py test_repl.sh
+
+echo.
+echo Тест запущен. Закройте окно эмулятора вручную.
+pause
