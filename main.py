@@ -30,8 +30,7 @@ class ShellEmulator:
         self.input_frame = tk.Frame(root)
         self.input_frame.pack(fill=tk.X)
 
-        self.prompt_label = tk.Label(self.input_frame,
-                                     text=f"{self.vfs_name}:$ ")
+        self.prompt_label = tk.Label(self.input_frame, text=f"{self.vfs_name}:$ ")
         self.prompt_label.pack(side=tk.LEFT)
 
         self.input_entry = tk.Entry(self.input_frame)
@@ -102,10 +101,11 @@ class ShellEmulator:
     def cmd_ls(self, args):
         self.print_line(f"ls: {args}")
         return True
-
+        
     def cmd_cd(self, args):
         self.print_line(f"cd: {args}")
         return True
+        
     def run_script(self, path):
         self.print_line(f"\n[script] Запуск стартового скрипта: {path}")
         try:
@@ -136,10 +136,8 @@ def parse_args(argv=None):
         prog="emulator",
         description="Эмулятор командной оболочки"
     )
-    parser.add_argument("--vfs", dest="vfs_path", default=None,
-                        help="Путь к физическому расположению VFS.")
-    parser.add_argument("--script", dest="script_path", default=None,
-                        help="Путь к стартовому скрипту.")
+    parser.add_argument("--vfs", dest="vfs_path", default=None, help="Путь к физическому расположению VFS.")
+    parser.add_argument("--script", dest="script_path", default=None, help="Путь к стартовому скрипту.")
     return parser.parse_args(argv)
     
 def main():
