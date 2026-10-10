@@ -1,0 +1,35 @@
+@echo off
+REM Запуск всех тестов эмулятора (Windows)
+
+cd /d "%~dp0"
+
+echo   Тест 1: базовые команды + VFS minimal
+python emulator.py --vfs .\vfs\vfs_minimal --script .\test_cmds.sh
+
+echo.
+echo   Тест 2: ошибки + VFS many
+python emulator.py --vfs .\vfs\vfs_many --script .\test_errors.sh
+
+echo.
+echo   Тест 3: кавычки + VFS deep
+python emulator.py --vfs .\vfs\vfs_deep --script .\test_quotes.sh
+
+echo.
+echo   Тест 4: полный тест всех команд
+python emulator.py --vfs .\vfs\vfs_many --script .\test_full.sh
+
+echo.
+echo   Тест 5: запуск без VFS
+python emulator.py --script .\test_cmds.sh
+
+echo.
+echo   Тест 6: ошибка загрузки VFS
+python emulator.py --vfs .\no_such_directory
+
+echo.
+echo   Тест 7: ошибка загрузки VFS (файл)
+python emulator.py --vfs .\README.md
+
+echo.
+echo Все тесты запущены.
+pause
