@@ -1,0 +1,13 @@
+# Тестовый скрипт для демонстрации работы REPL (этап 1)
+# показывает: ls, cd, обработку кавычек и ошибок
+
+ls
+ls -a
+ls "some path"
+ls 'single quoted'
+cd /tmp
+cd 'dir with spaces'
+unknown_command
+exit extra_arg
+ls "unclosed quote
+exit
