@@ -1,3 +1,4 @@
+import argparse
 import shlex
 import tkinter as tk
 from tkinter import scrolledtext
@@ -5,9 +6,22 @@ from tkinter import scrolledtext
 DEFAULT_VFS_NAME = "VFS_Emulator"
 
 class ShellEmulator:
-    def __init__(self, root):
+    def __init__(self, root, vfs_path=None, script_path=None):
         self.root = root
-        self.vfs_name = DEFAULT_VFS_NAME
+        self.vfs_path = vfs_path
+        self.script_path = script_path
+        self.exit_requested = False
+
+        self.debug_config = (
+            f"vfs = {self.vfs_path}\n"
+            f"script = {self.script_path}\n"
+        )
+        if self.vfs_path:
+            import os
+            self.vfs_name = os.path.basename(os.path.abspath(self.vfs_path))
+        else:
+            self.vfs_name = DEFAULT_VFS_NAME
+            
         self.root.title(f"Эмулятор - [{self.vfs_name}]")
 
         self.output_area = scrolledtext.ScrolledText(root)
@@ -25,10 +39,13 @@ class ShellEmulator:
         self.input_entry.bind("<Return>", self.on_enter)
         self.input_entry.focus_set()
 
-        self.exit_requested = False
-
         self.print_line("Добро пожаловать в эмулятор!")
+        self.print_line("[debug] Параметры запуска:")
+        self.print_line(self.debug_config)
         self.print_line("Доступные команды: ls, cd, exit\n")
+
+        if self.script_path:
+            self.run_script(self.script_path)
 
     def print_line(self, text=""):
         self.output_area.configure(state=tk.NORMAL)
@@ -89,10 +106,46 @@ class ShellEmulator:
     def cmd_cd(self, args):
         self.print_line(f"cd: {args}")
         return True
+    def run_script(self, path):
+        self.print_line(f"\n[script] Запуск стартового скрипта: {path}")
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                lines = f.readlines()
+        except OSError as e:
+            self.print_line(f"Ошибка: не удалось открыть скрипт '{path}': {e}")
+            return
 
+        for raw in lines:
+            if self.exit_requested:
+                break
+            line = raw.strip()
+            if not line or line.startswith("#"):
+                continue
+            self.print_line(f"{self.vfs_name}:$ {line}")
+            ok = self.process_line(line)
+            if self.exit_requested:
+                break
+            if not ok:
+                self.print_line(f"[script] Ошибка при выполнении: {line}")
+
+        if not self.exit_requested:
+            self.print_line("[script] Скрипт выполнен.")
+
+def parse_args(argv=None):
+    parser = argparse.ArgumentParser(
+        prog="emulator",
+        description="Эмулятор командной оболочки"
+    )
+    parser.add_argument("--vfs", dest="vfs_path", default=None,
+                        help="Путь к физическому расположению VFS.")
+    parser.add_argument("--script", dest="script_path", default=None,
+                        help="Путь к стартовому скрипту.")
+    return parser.parse_args(argv)
+    
 def main():
+    args = parse_args()
     root = tk.Tk()
-    emu = ShellEmulator(root)
+    emu = ShellEmulator(root,vfs_path=args.vfs_path, script_path=args.script_path)
     root.mainloop()
     if emu.exit_requested:
         try:
