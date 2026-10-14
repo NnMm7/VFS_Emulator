@@ -2,17 +2,20 @@
 REM Запуск тестов этапа 2 (Конфигурация)
 cd /d "%~dp0"
 
-echo   Тест 1: запуск со стартовым скриптом
+echo   ТЕСТ 1: базовые команды из скрипта
 python emulator.py --script .\test_cmds.sh
 
 echo.
-echo   Тест 2: запуск со скриптом, содержащим ошибки
+echo   ТЕСТ 2: скрипт с ошибками (пропускаются)
 python emulator.py --script .\test_errors.sh
 
 echo.
-echo   Тест 3: проверка отладочного вывода с --vfs
+echo   ТЕСТ 3: отладочный вывод с --vfs
 python emulator.py --vfs .\some_vfs_path --script .\test_cmds.sh
 
 echo.
 echo Тесты запущены. Закройте окно эмулятора вручную.
 pause
+
+# Запуск
+run_tests.bat
