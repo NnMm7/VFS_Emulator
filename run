@@ -19,3 +19,8 @@ pause
 
 # Запуск
 run_tests.bat
+
+# Или вручную
+python emulator.py --script test_cmds.sh
+python emulator.py --script test_errors.sh
+python emulator.py --vfs ./some_path --script test_cmds.sh
