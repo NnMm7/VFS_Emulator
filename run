@@ -1,16 +1,16 @@
 @echo off
-REM Запуск тестов этапа 2 (Конфигурация)
+REM Запуск тестов этапа 2
 cd /d "%~dp0"
 
-echo   ТЕСТ 1: базовые команды из скрипта
+echo   Тест 1: базовые команды из скрипта
 python emulator.py --script .\test_cmds.sh
 
 echo.
-echo   ТЕСТ 2: скрипт с ошибками (пропускаются)
+echo   Тест 2: скрипт с ошибками (пропускаются)
 python emulator.py --script .\test_errors.sh
 
 echo.
-echo   ТЕСТ 3: отладочный вывод с --vfs
+echo   Тест 3: отладочный вывод с --vfs
 python emulator.py --vfs .\some_vfs_path --script .\test_cmds.sh
 
 echo.
