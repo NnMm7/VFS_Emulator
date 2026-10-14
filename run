@@ -33,3 +33,15 @@ python emulator.py --vfs .\README.md
 echo.
 echo Все тесты запущены.
 pause
+
+# Запуск
+run_tests.bat
+
+# Или отдельные тесты вручную
+python emulator.py --vfs ./vfs/vfs_minimal --script ./test_cmds.sh
+python emulator.py --vfs ./vfs/vfs_many    --script ./test_errors.sh
+python emulator.py --vfs ./vfs/vfs_deep    --script ./test_quotes.sh
+python emulator.py --vfs ./vfs/vfs_many    --script ./test_full.sh
+python emulator.py --script ./test_cmds.sh
+python emulator.py --vfs ./no_such_directory
+python emulator.py --vfs ./README.md
