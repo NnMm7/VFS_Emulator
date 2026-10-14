@@ -8,3 +8,6 @@ python emulator.py test_repl.sh
 echo.
 echo Тест запущен. Закройте окно эмулятора вручную.
 pause
+
+#Запуск
+run_tests.bat
